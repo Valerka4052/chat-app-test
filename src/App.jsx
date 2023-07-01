@@ -17,8 +17,8 @@ function App() {
       <Route path='/' element={<IndexPage   />} />
       <Route path='/login' element={<LoginPage  />} />
       <Route path='/register' element={<RegisterPage  />} />
-      <Route path='/dashboard' element={<DashboardPage socket={socket} />} />
-      <Route path='/dashboard/:id' element={<ChatRoomPage socket={socket} />} />
+      <Route path='/dashboard' element={<DashboardPage  />} />
+      <Route path='/dashboard/:id' element={<ChatRoomPage  />} />
     </Routes>
   );
 }

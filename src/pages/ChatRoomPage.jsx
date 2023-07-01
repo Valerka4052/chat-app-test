@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
-
-const ChatRoomPage = ({ socket }) => {
+import socket from "../socket";
+const ChatRoomPage = () => {
+    console.log(socket);
     const location = useLocation()
   const { name } = location.state
      let params = useParams();
@@ -12,7 +13,7 @@ const ChatRoomPage = ({ socket }) => {
         // socket.on('newMessage',{message,})
     
      return ()=> socket.emit('leaveChatRoom', { chatRoomId: params.id });
-    }, [params.id, socket])
+    }, [params.id])
     
     socket.on('allMessages', (data) => {
         console.log('data', data)

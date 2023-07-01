@@ -1,9 +1,9 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+// import socket from "../socket";
 
-
-const DashboardPage = ({ socket }) => {
+const DashboardPage = () => {
   
   const [chatRoomName, setChatRoomName] = useState('');
   const [chats, setChats] = useState([]);
@@ -16,7 +16,7 @@ const DashboardPage = ({ socket }) => {
   }, []);
 console.log('chats', chats)
   const create = async() => {
-    const room = await axios.post('https://test-chat-backend.onrender.com/chatroom', { name: chatRoomName }, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
+    await axios.post('https://test-chat-backend.onrender.com/chatroom', { name: chatRoomName }, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
      const res = await axios.get('https://test-chat-backend.onrender.com/chatroom', { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } })
     setChats(res.data);
     setChatRoomName('');
