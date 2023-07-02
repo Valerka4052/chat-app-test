@@ -14,11 +14,11 @@ function App() {
  
   return (
     <Routes>
-      <Route path='/' element={<IndexPage   />} />
-      <Route path='/login' element={<LoginPage  />} />
-      <Route path='/register' element={<RegisterPage  />} />
-      <Route path='/dashboard' element={<DashboardPage  />} />
-      <Route path='/dashboard/:id' element={<ChatRoomPage  />} />
+      <Route path='/' element={<IndexPage />} />
+      <Route path='/login' element={<LoginPage />} />
+      <Route path='/register' element={<RegisterPage />} />
+      <Route path='/dashboard' element={<DashboardPage />} />
+      <Route path='/dashboard/:id' element={<ChatRoomPage />} />
     </Routes>
   );
 }
