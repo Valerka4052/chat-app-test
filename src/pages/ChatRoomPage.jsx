@@ -15,6 +15,7 @@ const ChatRoomPage = () => {
         }
         (async () => {
             const chatRoomInfo = await axios.get(`https://test-chat-backend.onrender.com/chatroom/${id}`);
+            console.log(chatRoomInfo);
             setRoom(chatRoomInfo.data);
             const messages = await axios.post('https://test-chat-backend.onrender.com/messages/chat', { id }, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
             console.log(messages);
