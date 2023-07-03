@@ -15,10 +15,8 @@ const ChatRoomPage = () => {
         }
         (async () => {
             const chatRoomInfo = await axios.get(`https://test-chat-backend.onrender.com/chatroom/${id}`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
-            console.log(chatRoomInfo);
             setRoom(chatRoomInfo.data);
             const messages = await axios.post('https://test-chat-backend.onrender.com/messages/chat', { id }, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
-            console.log(messages);
             setMessages(messages.data);
         })();
         return () => socket.emit('leaveChatRoom', { chatRoomId: id });
@@ -40,8 +38,8 @@ const ChatRoomPage = () => {
         <>
              <Link to='/dashboard' >Go to main Page</Link>
             <div>
-                <p> chat: {room.name}</p>
-                <p>description:{room.description} </p>
+                <p> chat: --{room.name}--</p>
+                <p>description: --{room.description}-- </p>
             </div>
            
             <ul>

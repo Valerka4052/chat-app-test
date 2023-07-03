@@ -20,7 +20,7 @@ const DashboardPage = () => {
       <Link to='/user-page'>my page</Link>
      <div> <Link to='/create-chatroom'>create chat</Link></div>
       {chats.length > 0 && <ul>
-        {chats.map(({ _id, name }) => <li key={_id}><Link  to={`/dashboard/${_id}`}>{name}</Link></li>)}
+        {chats.map(({ _id, name, user }) => <li key={_id}><Link to={`/dashboard/${_id}`}>{name} (by {user.name })</Link></li>)}
       </ul>}
     </div>
   );
