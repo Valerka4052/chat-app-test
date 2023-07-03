@@ -8,6 +8,8 @@ import DashboardPage from "./pages/DashboardPage";
 import IndexPage from "./pages/IndexPage";
 import ChatRoomPage from "./pages/ChatRoomPage";
 import { useEffect } from "react";
+import CreateChatRoomPage from "./pages/CreateChatRoomPage";
+import UserPage from "./pages/UserPage";
 
 function App() {
   useEffect(() => { socket.on('connect', () => console.log('CONNECTED')) }, []);
@@ -19,6 +21,8 @@ function App() {
       <Route path='/register' element={<RegisterPage />} />
       <Route path='/dashboard' element={<DashboardPage />} />
       <Route path='/dashboard/:id' element={<ChatRoomPage />} />
+      <Route path='/create-chatroom' element={<CreateChatRoomPage />} />
+      <Route path='/user-page' element={<UserPage />} />
     </Routes>
   );
 }
