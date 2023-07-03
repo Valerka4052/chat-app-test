@@ -1,6 +1,6 @@
-import axios from "axios"
-import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const DashboardPage = () => {
 
@@ -12,7 +12,8 @@ const DashboardPage = () => {
     })();
   }, []);
 
-  if (!chats) return
+  if (!chats) return;
+
   return (
     <div>
       <h2> DashboardPage</h2>

@@ -4,49 +4,39 @@ import socket from "../socket";
 import axios from "axios";
 
 const ChatRoomPage = () => {
-    // const location = useLocation();
-    // const { name } = location.state;
-    const params = useParams();
+    const { id } = useParams();
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
+
     useEffect(() => {
         if (socket) {
-            socket.emit('chatRoom', { chatRoomId: params.id });
+            socket.emit('chatRoom', { chatRoomId: id });
         }
         (async () => {
-            const messages = await axios.post('https://test-chat-backend.onrender.com/messages/chat', { id: params.id }, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
+            const messages = await axios.post('https://test-chat-backend.onrender.com/messages/chat', { id }, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
             console.log(messages);
             setMessages(messages.data);
         })();
-        return () => socket.emit('leaveChatRoom', { chatRoomId: params.id });
-    }, [params.id]);
+        return () => socket.emit('leaveChatRoom', { chatRoomId: id });
+    }, [id]);
 
-    socket.on('allMessages', (data) => {
-        console.log('data', data);
-        setMessages(data);
-    });
-    // console.log(messages);
+    socket.on('allMessages', data => setMessages(data));
+
     const submit = useCallback((e) => {
         e.preventDefault();
         if (message.trim().length < 1) return alert('no message');
-        const chatRoomId = params.id;
+        const chatRoomId = id;
         socket.emit("message", chatRoomId, message);
         setMessage('');
-    }, [message, params.id]);
-    //     const submit = (e) => {
-    //     e.preventDefault();
-    //     if (message.trim().length < 1) return alert('no message');
-    //     const chatRoomId = params.id;
-    //     socket.emit("message", chatRoomId, message);
-    //     setMessage('');
-    // };
+    }, [message, id]);
 
     if (!messages) return;
 
     return (
-        <>  <div>
-            chat: {params.id}
-        </div>
+        <>
+            <div>
+                chat id: {id}
+            </div>
             <Link to='/dashboard' >Go to main Page</Link>
             <ul>
                 {messages.map(item => <li key={item._id} style={{ display: 'flex' }}><p style={{ marginRight: 20 }}><b>{item.user.name}</b></p><p>{item.message}</p></li>)}
