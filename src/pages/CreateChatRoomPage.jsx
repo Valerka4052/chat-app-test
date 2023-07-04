@@ -10,7 +10,8 @@ const CreateChatRoomPage = () => {
     const create = useCallback(
            async () => {
             if (!chatRoomName || !chatRoomDescription) return alert('check all fields');
-            const room = await axios.post('https://test-chat-backend.onrender.com/chatroom', { name: chatRoomName, description: chatRoomDescription }, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
+            const data = { name: chatRoomName, description: chatRoomDescription };
+            const room = await axios.post('https://test-chat-backend.onrender.com/chatroom',data , { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
             setChatRoomName('');
             setChatRoomDescription('');
             navigate(`/dashboard/${room.data._id}`);

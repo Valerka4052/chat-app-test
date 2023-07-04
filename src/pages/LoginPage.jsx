@@ -14,7 +14,6 @@ const LoginPage = () => {
     e.preventDefault()
     try {
       const res = await axios.post('https://test-chat-backend.onrender.com/user/login', login);
-      console.log(res);
       if(typeof res.data === 'string') return alert('lo.dada')
       localStorage.setItem('token', res.data.token);
       setLogin(initialValues);

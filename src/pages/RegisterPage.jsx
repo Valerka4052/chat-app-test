@@ -16,8 +16,7 @@ const RegisterPage = () => {
     e.preventDefault()
     try {
       const lo = await axios.post('https://test-chat-backend.onrender.com/user/register', register);
-      console.log(lo);
-      if(typeof lo.data==='string')return alert(lo.data)
+       if(typeof lo.data==='string')return alert(lo.data)
       setRegister(initialValues);
       navigate('/login')
     } catch (error) {
@@ -35,6 +34,6 @@ const RegisterPage = () => {
         <button type='submit'>Sign Up</button>
       </form>
     </div>
-  )
+  );
 }
 export default RegisterPage
