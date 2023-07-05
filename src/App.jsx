@@ -17,7 +17,7 @@ import { refreshUser } from "./redux/auth/authOperations";
 function App() {
   const { isRefresh,token} = useSelector(state => state.authorisation);
     const [socket, setSocket] = useState(null)
-  useEffect(() => { setSocket(io.connect("http://localhost:8000", { query: { token } })) }, [token]);
+  useEffect(() => { setSocket(io.connect("https://test-chat-backend.onrender.com", { query: { token } })) }, [token]);
    const dispatch = useDispatch();
   useEffect(() => {
     dispatch(refreshUser());
