@@ -1,8 +1,12 @@
-import axios from "axios";
+// import axios from "axios";
 import { useCallback, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { createChatroom } from "../api";
+import { useSelector } from "react-redux";
 
 const CreateChatRoomPage = () => {
+    const { id } = useSelector(state => state.authorisation.user);
+
     const navigate = useNavigate();
     const [chatRoomName, setChatRoomName] = useState('');
     const [chatRoomDescription, setChatRoomDescription] = useState('');
@@ -10,13 +14,14 @@ const CreateChatRoomPage = () => {
     const create = useCallback(
            async () => {
             if (!chatRoomName || !chatRoomDescription) return alert('check all fields');
-            const data = { name: chatRoomName, description: chatRoomDescription };
-            const room = await axios.post('https://test-chat-backend.onrender.com/chatroom',data , { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
+            const data = { name: chatRoomName, description: chatRoomDescription,id };
+            // const room = await axios.post('https://test-chat-backend.onrender.com/chatroom',data , { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
+            const room = await createChatroom(data);
             setChatRoomName('');
             setChatRoomDescription('');
-            navigate(`/dashboard/${room.data._id}`);
+            navigate(`/dashboard/${room._id}`);
         },
-        [chatRoomDescription, chatRoomName, navigate],
+        [chatRoomDescription, chatRoomName, id, navigate],
     );
 
     return (

@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import socket from "../socket";
-import axios from "axios";
-
-const ChatRoomPage = () => {
+import { getChatroomById, getMessagesBychatroom } from "../api";
+ 
+const ChatRoomPage = ({socket}) => {
     const { id } = useParams();
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
@@ -14,15 +13,19 @@ const ChatRoomPage = () => {
             socket.emit('chatRoom', { chatRoomId: id });
         }
         (async () => {
-            const chatRoomInfo = await axios.get(`https://test-chat-backend.onrender.com/chatroom/${id}`, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
-            setRoom(chatRoomInfo.data);
-            const messages = await axios.post('https://test-chat-backend.onrender.com/messages/chat', { id }, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
-            setMessages(messages.data);
+            const chatRoomInfo = await getChatroomById(id);
+            setRoom(chatRoomInfo);
+            const messages = await getMessagesBychatroom(id);
+            setMessages(messages);
         })();
         return () => socket.emit('leaveChatRoom', { chatRoomId: id });
-    }, [id]);
+    }, [id, socket]);
 
-    socket.on('allMessages', data => setMessages(data));
+    useEffect(() => {
+        if (socket) { socket.on('allMessages', messages => setMessages(messages)) };
+        return () => { if (socket) { socket.off('allMessages', messages => setMessages(messages)) } };
+    }, [socket]);
+
     const formattedDate = useCallback((date) => {
         const inputDate = date;
         const dateObj = new Date(inputDate);
@@ -34,26 +37,27 @@ const ChatRoomPage = () => {
         const formattedDate = `${day}.${month}.${year} ${hours}:${minutes}`;
         return formattedDate;
     }, []);
+
     const submit = useCallback((e) => {
         e.preventDefault();
         if (message.trim().length < 1) return alert('no message');
         const chatRoomId = id;
         socket.emit("message", chatRoomId, message);
         setMessage('');
-    }, [message, id]);
+    }, [message, id, socket]);
 
-    if (!messages) return;
+    if (!messages || !room) return;
 
     return (
         <>
-            <Link to='/dashboard' >Go to main Page</Link>
+            <Link to='/' >Go to main Page</Link>
             <div>
                 <p> chat: --{room.name}--</p>
                 <p>description: --{room.description}-- </p>
-                <p>comments [{room.commentsCount}]</p>
+                <p>comments [{messages.length}]</p>
             </div>
             <ul>
-                {messages.map(item => <li key={item._id} style={{ display: 'flex' }}><p style={{ marginRight: 20 }}><b>{item.user.name}</b></p><p>{item.message}</p><p>{formattedDate(item.createdAt)}</p></li>)}
+                {messages.map(item => <li key={item._id} style={{ display: 'flex' }}><p style={{ marginRight: 20 }}><b>{item.user.name}</b></p><p>{item.message}</p><p>Date: {formattedDate(item.createdAt)}</p></li>)}
             </ul>
             <div>
                 <form onSubmit={(e) => submit(e)}>

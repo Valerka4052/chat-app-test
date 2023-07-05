@@ -1,6 +1,9 @@
-import axios from 'axios';
+// import axios from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
+// import { registerAction } from '../api';
+import { signUp } from '../redux/auth/authOperations';
+import { useDispatch } from 'react-redux';
 
 const initialValues = {
   name:'',
@@ -10,13 +13,16 @@ const initialValues = {
 
 
 const RegisterPage = () => {
+     const dispatch = useDispatch()
   const [register, setRegister] = useState(initialValues);
   const navigate = useNavigate()
   const submit = async (e) => {
     e.preventDefault()
     try {
-      const lo = await axios.post('https://test-chat-backend.onrender.com/user/register', register);
-       if(typeof lo.data==='string')return alert(lo.data)
+      dispatch(signUp(register));
+      // const lo = await axios.post('https://test-chat-backend.onrender.com/user/register', register);
+      //  if(typeof lo.data==='string')return alert(lo.data)
+      // await registerAction(register);
       setRegister(initialValues);
       navigate('/login')
     } catch (error) {

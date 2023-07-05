@@ -1,6 +1,8 @@
-import axios from 'axios';
+// import axios from 'axios';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'
+import { Link} from 'react-router-dom'
+import { useDispatch } from 'react-redux';
+import { LogIn } from '../redux/auth/authOperations';
 
 const initialValues = {
   email: '',
@@ -8,16 +10,19 @@ const initialValues = {
 }
 
 const LoginPage = () => {
+   const dispatch = useDispatch()
   const [login, setLogin] = useState(initialValues);
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const submit = async (e) => {
     e.preventDefault()
     try {
-      const res = await axios.post('https://test-chat-backend.onrender.com/user/login', login);
-      if(typeof res.data === 'string') return alert('lo.dada')
-      localStorage.setItem('token', res.data.token);
+      dispatch(LogIn(login))
+      // const res = await axios.post('https://test-chat-backend.onrender.com/user/login', login);
+      // const res = await loginAction(login)
+      // if (typeof res.data === 'string') return alert('lo.dada')
+      // localStorage.setItem('token', res.data.token);
       setLogin(initialValues);
-      navigate('/dashboard')
+      // navigate('/')
     } catch (error) {
       console.log(error)
     }
