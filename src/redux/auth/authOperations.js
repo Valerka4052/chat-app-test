@@ -3,7 +3,7 @@ import axios from "axios";
 import Notiflix from "notiflix";
 
 const instance = axios.create({
-  baseURL: '"https://test-chat-backend.onrender.com"'
+  baseURL: 'https://test-chat-backend.onrender.com'
 });
 function setToken(token) {
     instance.defaults.headers.common.Authorization = `Bearer ${token}`;
