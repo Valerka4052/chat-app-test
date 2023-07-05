@@ -52,6 +52,7 @@ const ChatRoomPage = ({socket}) => {
         <>
             <Link to='/' >Go to main Page</Link>
             <div>
+                <div><img src={room.imageURL?room.imageURL:'https://www.biiainsurance.com/wp-content/uploads/2015/05/no-image.jpg'} width={300} height={300} /></div>
                 <p> chat: --{room.name}--</p>
                 <p>description: --{room.description}-- </p>
                 <p>comments [{messages.length}]</p>
