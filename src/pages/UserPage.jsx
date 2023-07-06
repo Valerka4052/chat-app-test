@@ -50,34 +50,30 @@ const UserPage = () => {
     setList(2)
   }
 
-
-
   return (
     <div>
-        <h2>user page</h2>
+      <h2>user page</h2>
       <Link to='/' >go to main page</Link>
       <button onClick={() => dispatch(LogOut())}>logout</button>
       <div>
-      <div>
-        <p>user info:</p>
-        <p>name {name}</p>
-        <p>email {email}</p>
-       {imageURL && <div><img src={imageURL} width={200} height={200} /></div>}
-
+        <div>
+          <p>user info:</p>
+          <p>name {name}</p>
+          <p>email {email}</p>
+          {imageURL && <div><img src={imageURL} width={200} height={200} /></div>}
+        </div>
+            <input type="file" accept="image/*" onChange={handlePhotoChange} />
+        {selectedPhoto && <div><button disabled={!selectedPhoto} onClick={removeImage} >delete image</button>
+          (<div><h2>photo prewiew:</h2><img src={preview} width={200} height={200} /></div>) </div>}
       </div>
-    
-        <input type="file" accept="image/*" onChange={handlePhotoChange} />
-        <button disabled={!selectedPhoto} onClick={removeImage} >delete image</button>
-        {selectedPhoto && (<div><h2>photo prewiew:</h2><img src={preview} width={200} height={200}/></div>)}
-      </div>
-   { selectedPhoto &&  <button onClick={updateUserImage} >apply photo</button>}
+      {selectedPhoto && <button onClick={updateUserImage} >apply photo</button>}
       <div>
         <div><button onClick={getAllMessages}>my messages</button><button onClick={getAllchatroomsByUser}>my chats</button></div>
-     { list === 1 &&  <ul>
-          {messages.map((message) => <li key={message._id}><p>message: {message.message}</p><p>chat: { message.chatroom.name}</p></li>)}
+        {list === 1 && <ul>
+          {messages.map((message) => <li key={message._id}><p>message: {message.message}</p><p>chat: {message.chatroom.name}</p></li>)}
         </ul>}
         {list === 2 && <ul>
-          {chatrooms.map((room) => <li key={room._id}><Link to={`/dashboard/${room._id}`}>{room.name }</Link></li>)}
+          {chatrooms.map((room) => <li key={room._id}><Link to={`/dashboard/${room._id}`}>{room.name}</Link></li>)}
         </ul>}
       </div>
     </div>

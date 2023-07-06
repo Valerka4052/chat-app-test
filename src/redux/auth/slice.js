@@ -56,6 +56,7 @@ export const userValidationSlice = createSlice({
                 // console.log(action.payload);
                 state.user.name = action.payload.data.name;
                 state.user.email = action.payload.data.email;
+                state.user.imageURL = action.payload.data.imageURL;
                 state.user.id = action.payload.data._id;
                 state.isRefresh = false;
                 state.isLoggedIn = true;
