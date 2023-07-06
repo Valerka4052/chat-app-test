@@ -21,7 +21,7 @@ const DashboardPage = () => {
   return (
     <div>
       <h2> DashboardPage</h2>
-      <Link to='/user-page'>my page</Link>
+      <Link to='/user-page'>go to User Page</Link>
      <div> <Link to='/create-chatroom'>create chat</Link></div>
       {chats.length > 0 && <ul>
         {chats.map(({ _id, name, user, commentsCount, updatedAt,imageURL }) => <li key={_id} style={{display:'flex'}} ><div><img src={imageURL?imageURL:'https://www.biiainsurance.com/wp-content/uploads/2015/05/no-image.jpg'} width={300} height={300} /></div><Link to={`/dashboard/${_id}`}>{name} (by {user.name})  comments:{commentsCount} last comment was{formattedDate(updatedAt) }</Link></li>)}

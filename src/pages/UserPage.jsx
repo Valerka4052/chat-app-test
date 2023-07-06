@@ -3,12 +3,16 @@ import { useCallback, useEffect, useState } from "react";
 import { LogOut, updateUser } from "../redux/auth/authOperations";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { getAllChatrooms, getMessagesByUser } from "../api";
 
 const UserPage = () => {
   const { id, name, email, imageURL } = useSelector(state => state.authorisation.user);
   const dispatch = useDispatch()
   const [selectedPhoto, setSelectedPhoto] = useState(null);
-    const [preview, setPreview] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [list, setList] = useState(0);
+  const [messages, setMessages] = useState([])
+  const [chatrooms,setChatrooms]=useState([])
       useEffect(() => {
         if (!selectedPhoto) return setPreview(undefined);
         const objectUrl = URL.createObjectURL(selectedPhoto);
@@ -31,6 +35,23 @@ const UserPage = () => {
     setSelectedPhoto(null);
 
   }, [dispatch, id, selectedPhoto]);
+
+  const getAllMessages = async () => {
+    const messagesByUser = await getMessagesByUser(id)
+    console.log(messagesByUser);
+    setMessages(messagesByUser);
+    setList(1)
+  };
+
+  const getAllchatroomsByUser = async () => {
+    const result = await getAllChatrooms();
+    const filtereRresult = result.filter(room => {return room.user._id === id });
+    setChatrooms(filtereRresult);
+    setList(2)
+  }
+
+
+
   return (
     <div>
         <h2>user page</h2>
@@ -49,7 +70,16 @@ const UserPage = () => {
         <button disabled={!selectedPhoto} onClick={removeImage} >delete image</button>
         {selectedPhoto && (<div><h2>photo prewiew:</h2><img src={preview} width={200} height={200}/></div>)}
       </div>
-      <button onClick={updateUserImage} >apply photo</button>
+   { selectedPhoto &&  <button onClick={updateUserImage} >apply photo</button>}
+      <div>
+        <div><button onClick={getAllMessages}>my messages</button><button onClick={getAllchatroomsByUser}>my chats</button></div>
+     { list === 1 &&  <ul>
+          {messages.map((message) => <li key={message._id}><p>message: {message.message}</p><p>chat: { message.chatroom.name}</p></li>)}
+        </ul>}
+        {list === 2 && <ul>
+          {chatrooms.map((room) => <li key={room._id}><Link to={`/dashboard/${room._id}`}>{room.name }</Link></li>)}
+        </ul>}
+      </div>
     </div>
   );
 }
