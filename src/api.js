@@ -29,7 +29,7 @@ import instance from "./redux/auth/authOperations";
 export const getChatroomById = async (id) => {
     try {
         const res = await instance.get(`/chatroom/${id}`);
-        if (res.data === 'invalid token') return localStorage.removeItem('token')
+        // if (res.data === 'invalid token') return localStorage.removeItem('token')
         return res.data;
     } catch (error) {
          console.log(error);
@@ -39,7 +39,7 @@ export const getChatroomById = async (id) => {
 export const getMessagesBychatroom = async (id) => {
     try {
         const res = await instance.post('/messages/chat', { id });
-        if (res.data === 'invalid token') return localStorage.removeItem('token');
+        // if (res.data === 'invalid token') return localStorage.removeItem('token');
         return res.data
     } catch (error) {
         console.log(error);
@@ -49,7 +49,7 @@ export const getMessagesBychatroom = async (id) => {
 export const createChatroom = async (data) => {
     try {
         const res = await instance.post('/chatroom', data);
-        if (res.data === 'invalid token') return localStorage.removeItem('token');
+        // if (res.data === 'invalid token') return localStorage.removeItem('token');
         return res.data
     } catch (error) {
         console.log(error);
@@ -58,7 +58,17 @@ export const createChatroom = async (data) => {
 export const getAllChatrooms = async () => {
     try {
         const res = await instance.get('/chatroom');
-        if (res.data === 'invalid token') return localStorage.removeItem('token');
+        // if (res.data === 'invalid token') return localStorage.removeItem('token');
+        return res.data
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const updateUserImage = async (data) => {
+    try {
+        const res = await instance.patch('/user', data);
+        // if (res.data === 'invalid token') return localStorage.removeItem('token');
         return res.data
     } catch (error) {
         console.log(error);

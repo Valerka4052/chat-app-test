@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { signUp, LogIn, LogOut, refreshUser}  from './authOperations';
+import { signUp, LogIn, LogOut, refreshUser, updateUser } from './authOperations';
 
 export const userValidationSlice = createSlice({
     name: 'authorisation',
@@ -7,7 +7,8 @@ export const userValidationSlice = createSlice({
         user: {
             name: null,
             email: null,
-            id:null
+            id: null,
+            imageURL:null,
         },
         token: null,
         isLoggedIn: false,
@@ -31,6 +32,7 @@ export const userValidationSlice = createSlice({
                 state.isLoggedIn = true;
                 state.user.name = action.payload.name;
                 state.user.email = action.payload.email;
+                state.user.imageURL = action.payload.imageURL;
                 state.user.id = action.payload._id
                 state.token = action.payload.token;
             })
@@ -55,6 +57,16 @@ export const userValidationSlice = createSlice({
                 state.user.name = action.payload.data.name;
                 state.user.email = action.payload.data.email;
                 state.user.id = action.payload.data._id;
+                state.isRefresh = false;
+                state.isLoggedIn = true;
+            })
+              .addCase(updateUser.pending, (state) => {
+                state.isRefresh = true;
+            })
+                  .addCase(updateUser.fulfilled, (state, action) => {
+                if (!action.payload) { return state }
+                console.log(action.payload);
+                state.user.imageURL = action.payload.data.imageURL;
                 state.isRefresh = false;
                 state.isLoggedIn = true;
             })

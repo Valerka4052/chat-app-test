@@ -73,4 +73,23 @@ export const refreshUser = createAsyncThunk(
         }
     },
 );
+export const updateUser = createAsyncThunk(
+    'authorisation/UpdateUser',
+    async (data, thunkAPI) => {
+        console.log('data',data);
+        const { token } = thunkAPI.getState().authorisation;
+        if (token === null) {
+            return thunkAPI.rejectWithValue('no valid token');
+        }
+        try {
+            setToken(token);
+            console.log('data',data);
+            const response = await instance.patch('/user', data);
+            // console.log('res',response);
+            return response
+        } catch (error) {
+            thunkAPI.rejectWithValue(error.data.message);
+        }
+    },
+);
 export default instance

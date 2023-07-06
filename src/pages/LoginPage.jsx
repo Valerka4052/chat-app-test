@@ -15,19 +15,9 @@ const LoginPage = () => {
   // const navigate = useNavigate()
   const submit = async (e) => {
     e.preventDefault()
-    try {
       dispatch(LogIn(login))
-      // const res = await axios.post('https://test-chat-backend.onrender.com/user/login', login);
-      // const res = await loginAction(login)
-      // if (typeof res.data === 'string') return alert('lo.dada')
-      // localStorage.setItem('token', res.data.token);
       setLogin(initialValues);
-      // navigate('/')
-    } catch (error) {
-      console.log(error)
-    }
   };
-// console.log('login', login)
   return (
     <div>
       <h2>Login Page</h2>

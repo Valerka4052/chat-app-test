@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getChatroomById, getMessagesBychatroom } from "../api";
+
  
 const ChatRoomPage = ({socket}) => {
     const { id } = useParams();
@@ -65,6 +66,7 @@ const ChatRoomPage = ({socket}) => {
                     <input type="text" name="text" value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Say something" />
                     <button type="submit">Send!</button>
                 </form>
+             
             </div>
         </>
     );
